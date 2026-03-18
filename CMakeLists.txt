@@ -17,6 +17,7 @@ option(STB_ENABLE_LEAKCHECK             "stb_leakcheck"             OFF)
 option(STB_ENABLE_PERLIN                "stb_perlin"                OFF)
 option(STB_ENABLE_RECT_PACK             "stb_rect_pack"             OFF)
 option(STB_ENABLE_SPRINTF               "stb_sprintf"               OFF)
+option(STB_ENABLE_TEXTEDIT              "stb_textedit"              OFF)
 option(STB_ENABLE_TRUETYPE              "stb_truetype"              OFF)
 option(STB_ENABLE_VORBIS                "stb_vorbis"                OFF)
 option(STB_ENABLE_VOXEL_RENDER          "stb_voxel_render"          OFF)
@@ -135,6 +136,11 @@ if(STB_ENABLE_TRUETYPE)
     list(APPEND STB_HEADERS stb_truetype.h)
 endif()
 
+if(STB_ENABLE_TRUETYPE)
+    generate_impl(stb_textedit STB_TEXTEDIT_IMPLEMENTATION)
+    list(APPEND STB_HEADERS stb_textedit.h)
+endif()
+
 if(STB_ENABLE_VORBIS)
     # stb_vorbis ships as a .c file rather than a header-only lib, so we
     # compile it directly instead of generating a wrapper.
@@ -151,9 +157,6 @@ if(STB_ENABLE_TILEMAP_EDITOR)
     generate_impl(stb_tilemap_editor STB_TILEMAP_EDITOR_IMPLEMENTATION)
     list(APPEND STB_HEADERS stb_tilemap_editor.h)
 endif()
-
-# stb_textedit — header-only, no implementation guard.  Always expose it.
-list(APPEND STB_HEADERS stb_textedit.h)
 
 if(NOT STB_SOURCES)
     message(WARNING
